@@ -1,0 +1,9 @@
+package com.libreria.web.repositorios;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.libreria.web.entidades.Libro;
+
+public interface LibroRepositorio extends JpaRepository<Libro, String>{
+
+}

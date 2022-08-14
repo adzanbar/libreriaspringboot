@@ -1,0 +1,27 @@
+package com.libreria.web.servicios;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.libreria.web.entidades.Autor;
+import com.libreria.web.entidades.Editorial;
+import com.libreria.web.errores.ErrorServicio;
+import com.libreria.web.repositorios.LibroRepositorio;
+
+public class LibroServicio {
+
+	@Autowired
+	private LibroRepositorio libroRepositorio;
+	
+	public void crear(Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados,
+			Integer ejemplaresRestantes, Boolean alta, Autor autor, Editorial editorial) throws ErrorServicio {
+		if (isbn == null || titulo == null || anio == null || ejemplares == null || ejemplaresPrestados == null || ejemplaresRestantes == null || autor == null || editorial == null) {
+			throw new ErrorServicio("Libro inválido");
+		}
+		if (isbn == 0 || (13 != (int) (Math.log10(isbn) + 1) && 10 != (int) (Math.log10(isbn) + 1))) {
+			throw new ErrorServicio("Libro inválido");
+		}
+		if (13 == (int) (Math.log10(isbn) + 1) && (978 != (int)(isbn/Math.pow(10, 10)) || 979 != (int)(isbn/Math.pow(10, 10)))) {
+			
+		}
+	}
+}

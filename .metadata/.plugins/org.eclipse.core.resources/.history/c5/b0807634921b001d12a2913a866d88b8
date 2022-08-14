@@ -1,0 +1,10 @@
+package com.libreria.web.servicios;
+
+public class AutorServicio {
+	
+	public void crearAutor(String nombre) throws ErrorServicio{
+		if (nombre == null || nombre.isBlank()) {
+			throw new ErrorServicio("Nombre inválido");
+		}
+	}
+}

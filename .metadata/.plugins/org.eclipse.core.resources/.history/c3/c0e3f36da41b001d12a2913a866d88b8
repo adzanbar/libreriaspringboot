@@ -1,0 +1,56 @@
+package com.libreria.web.servicios;
+
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.libreria.web.entidades.Autor;
+import com.libreria.web.entidades.Editorial;
+import com.libreria.web.entidades.Libro;
+import com.libreria.web.errores.ErrorServicio;
+import com.libreria.web.repositorios.LibroRepositorio;
+
+public class LibroServicio {
+
+	@Autowired
+	private LibroRepositorio libroRepositorio;
+	
+	public void crear(Long isbn, String titulo, Integer anio, Integer ejemplaresPrestados, Integer ejemplaresRestantes, Autor autor, Editorial editorial) throws ErrorServicio {
+		if (isbn == null || titulo == null || titulo.isBlank()) {
+			throw new ErrorServicio("Libro inválido");
+		}
+		libroRepositorio.save(new Libro(isbn, titulo, anio, ejemplaresPrestados, ejemplaresRestantes, autor, editorial));
+	}
+	
+	public List<Libro> leer() {
+		return libroRepositorio.leer();
+	}
+	
+	public void actualizar(String id, Long isbn, String titulo, Integer anio, Integer ejemplaresPrestados, Integer ejemplaresRestantes, Autor autor, Editorial editorial) throws ErrorServicio {
+		if (isbn == null || titulo == null || titulo.isBlank()) {
+			throw new ErrorServicio("Libro inválido");
+		}
+		Optional<Libro> respuesta = libroRepositorio.findById(id);
+		if (respuesta.isEmpty()) {
+			throw new ErrorServicio("Libro inválido");
+		}
+		Libro libro = respuesta.get();
+		libro.setIsbn(isbn);
+		libro.setTitulo(titulo);
+		libro.setAnio(anio);
+		libro.setEjemplares(ejemplaresPrestados + ejemplaresRestantes);
+		libro.setEjemplaresPrestados(ejemplaresPrestados);
+		libro.setEjemplaresRestantes(ejemplaresRestantes);
+		libro.setAutor(autor);
+		libro.setEditorial(editorial);
+		libroRepositorio.save(libro);
+	}
+	
+	public void eliminar(String id) {
+		Libro libro = libroRepositorio.findById(id).get();
+		libro.setAlta(false);
+		libroRepositorio.save(libro);
+	}
+}

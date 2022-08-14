@@ -1,0 +1,40 @@
+package com.libreria.web.servicios;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.libreria.web.entidades.Autor;
+import com.libreria.web.errores.ErrorServicio;
+import com.libreria.web.repositorios.AutorRepositorio;
+
+public class AutorServicio {
+	
+	@Autowired
+	private AutorRepositorio autorRepositorio;
+	
+	public void crearAutor(String nombre) throws ErrorServicio{
+		if (nombre == null || nombre.isBlank()) {
+			throw new ErrorServicio("Nombre inválido");
+		}
+		autorRepositorio.save(new Autor(nombre, true));
+	}
+	
+	public List<Autor> leerAutores() {
+		return autorRepositorio.leerAutores();
+	}
+	
+	public void actualizarAutor(String id, String nombre) throws ErrorServicio {
+		Optional<Autor> respuesta = autorRepositorio.findById(id);
+		if (respuesta.isEmpty()) {
+			throw new ErrorServicio("Autor inexistente");
+		}
+		Autor autor = respuesta.get();
+		if (!autor.getAlta()) {
+			throw new ErrorServicio("Autor inexistente")
+		}
+		autor.setNombre(nombre);
+		autorRepositorio.save(autor);
+	}
+}

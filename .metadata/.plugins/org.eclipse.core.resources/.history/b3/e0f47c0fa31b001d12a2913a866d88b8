@@ -1,0 +1,47 @@
+package com.libreria.web.servicios;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.libreria.web.entidades.Editorial;
+import com.libreria.web.errores.ErrorServicio;
+import com.libreria.web.repositorios.EditorialRepositorio;
+
+public class EditorialServicio {
+	
+	@Autowired
+	private EditorialRepositorio editorialRepositorio;
+	
+	public void crear(String nombre) throws ErrorServicio{
+		if (nombre == null || nombre.isBlank()) {
+			throw new ErrorServicio("Nombre inválido");
+		}
+		editorialRepositorio.save(new Editorial(nombre, true));
+	}
+	
+	public List<Editorial> leer() {
+		return editorialRepositorio.leer();
+	}
+	
+	public void actualizar(String id, String nombre) throws ErrorServicio {
+		Optional<Editorial> respuesta = editorialRepositorio.findById(id);
+		if (respuesta.isEmpty()) {
+			throw new ErrorServicio("Editorial inexistente");
+		}
+		Editorial editorial = respuesta.get();
+		editorial.setNombre(nombre);
+		editorialRepositorio.save(editorial);
+	}
+	
+	public void eliminar(String id) throws ErrorServicio {
+		Optional<Editorial> respuesta = editorialRepositorio.findById(id);
+		if (respuesta.isEmpty()) {
+			throw new ErrorServicio("Editorial inexistente");
+		}
+		Editorial editorial = respuesta.get();
+		editorial.setAlta(false);
+		editorialRepositorio.save(editorial);
+	}
+}

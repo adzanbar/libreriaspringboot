@@ -1,0 +1,12 @@
+package com.libreria.web;
+
+public class Test {
+
+	public static void main(String[] args) {
+		int a = 978;
+		a = (int) (a * Math.pow(10,10));
+		System.out.println(a);
+		a = (int) (a * Math.pow(10,10));
+	}
+
+}

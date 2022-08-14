@@ -1,0 +1,29 @@
+package com.libreria.web.servicios;
+
+import java.util.Iterator;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.libreria.web.entidades.Autor;
+import com.libreria.web.entidades.Editorial;
+import com.libreria.web.errores.ErrorServicio;
+import com.libreria.web.repositorios.LibroRepositorio;
+
+public class LibroServicio {
+
+	@Autowired
+	private LibroRepositorio libroRepositorio;
+	
+	public void crear(Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados,
+			Integer ejemplaresRestantes, String autorName, String editorialName) throws ErrorServicio {
+		if (isbn == null || titulo == null || anio == null || ejemplaresPrestados == null || ejemplaresRestantes == null) {
+			
+		}
+		if (titulo.isBlank() || ejemplares < 0 || ejemplaresPrestados < 0 || ejemplaresRestantes < 0) {
+			throw new ErrorServicio("Libro inválido")
+		}
+		if () {
+			
+		}
+	}
+}
